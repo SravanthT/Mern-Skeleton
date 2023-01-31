@@ -27,15 +27,15 @@ const UserSchema = new mongoose.Schema({
 
 //Handling password as a virtual field
 UserSchema
-    .virtual('password')
-    .set(function (password){
-        this._password = password
-        this.salt = this.makeSalt()
-        this.hashed_password = this.encryptPassword(password)
-    })
-    .get(function(){
-        return this._password
-    });
+  .virtual('password')
+  .set(function(password) {
+    this._password = password
+    this.salt = this.makeSalt()
+    this.hashed_password = this.encryptPassword(password)
+  })
+  .get(function() {
+    return this._password
+  })
 
 //Encryption and authentication
 UserSchema.methods = {
@@ -59,13 +59,13 @@ UserSchema.methods = {
 }
 
 //Password validation
-UserSchema.path('hashed_password').validate(function(v){
-    if (this._password && this._password.length<6){
-        this.invalidate('password', 'Password must be at least 6 characters.')
+UserSchema.path('hashed_password').validate(function(v) {
+    if (this._password && this._password.length < 6) {
+      this.invalidate('password', 'Password must be at least 6 characters.')
     }
-    if(this.isNew && !this._password){
-        this.validate('password', 'Password is required')
+    if (this.isNew && !this._password) {
+      this.invalidate('password', 'Password is required')
     }
-},null)
+  }, null)
 
 export default mongoose.model('User', UserSchema);

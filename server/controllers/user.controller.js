@@ -5,12 +5,14 @@ import errorHandler from './../helpers/dbErrorHandler';
 
 const create = async (req,res,next)=>{
     const user = new User(req.body)
+    console.log(user)
     try{
         await user.save()
         return res.status(200).json({
             message: "Successfully signed up!"
         })
     }catch(err){
+        console.log(err)
         return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
         })
