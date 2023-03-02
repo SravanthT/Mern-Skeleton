@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const crypto = require('crypto');
 
 const UserSchema = new mongoose.Schema({
     name:{
@@ -9,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     email:{
         type:String,
         trim:true,
-        unique: "Email already exists",
+        unique: true,
         match: [/.+\@.+\..+/, 'Please fill a valid email address'],
         required: 'Email is required'
     },
@@ -29,12 +30,12 @@ const UserSchema = new mongoose.Schema({
 UserSchema
   .virtual('password')
   .set(function(password) {
-    this._password = password
-    this.salt = this.makeSalt()
-    this.hashed_password = this.encryptPassword(password)
+    this._password = password;
+    this.salt = this.makeSalt();
+    this.hashed_password = this.encryptPassword(password);
   })
   .get(function() {
-    return this._password
+    return this.hashed_password;
   })
 
 //Encryption and authentication
@@ -43,12 +44,12 @@ UserSchema.methods = {
         return this.encryptPassword(plainText) === this.hashed_password       
     },
     encryptPassword: function(password){
-        if(!password) return ""
+        if(!password) throw new Error("Password is required");
         try{
             return crypto
-                .createHmac('shal', this.salt)
+                .createHmac('sha1', this.salt)
                 .update(password)
-                .digest('hex')
+                .digest('hex');
         } catch(err) {
             return ""
         }
