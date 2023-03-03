@@ -7,12 +7,13 @@ import {hot} from 'react-hot-loader';
 
 const App = () =>{
     return( 
-        
+        <Router>
             <ThemeProvider theme={theme}>
-                <Router>
+                
                     <MainRouter/>
-                </Router>
+                
             </ThemeProvider>
+        </Router>
     )
 }
 

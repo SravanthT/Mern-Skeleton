@@ -5,9 +5,8 @@ import Home from './core/Home';
 const MainRouter = () =>{
     return (
         <>
-            <Home/>
             <Routes>
-                <Route path="/" component={Home}/>
+                <Route exact path="/" element={<Home/>}/>
             </Routes>
         </>
     )
