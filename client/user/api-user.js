@@ -1,6 +1,6 @@
 const create = async (user) =>{
     try{
-        let response = await fetch('api/users',{
+        let response = await fetch('/api/users',{
             method: 'POST',
             headeres: {
                 'Accept': 'application/json',
@@ -16,7 +16,7 @@ const create = async (user) =>{
 
 const list = async (signal) =>{
     try{
-        let response = await fetch('/api.users',{
+        let response = await fetch('/api/users',{
             method: 'GET',
             signal: signal,
         })
