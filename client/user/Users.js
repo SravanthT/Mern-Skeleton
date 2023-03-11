@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme =>({
     }),
     title:{
         margin: `${theme.spacing(4)}px 0 ${theme.spacing(2)}px`,
-        colot: theme.palette.openTitle
+        color: theme.palette.openTitle
     }
 }))
 

@@ -4,16 +4,22 @@ import Home from './core/Home';
 import About from "./user/About";
 import Signin from './auth/Signin';
 import User from "./user/Users";
+import Signup from "./user/Signup";
+import Profile from "./user/Profile";
+import Menu from './core/Menu';
 
 
 const MainRouter = () =>{
     return (
         <>
+            <Menu />
             <Routes>
                 <Route index path="/" element={<Home/>}/>
                 <Route path='/signin' element={<Signin/>} />
+                <Route path='/signup' element={<Signup/>} />
                 <Route path="/about" element={<About/>} />
                 <Route path='/users' element={<User/>}/>
+                <Route path="/user/:userId" element={<Profile/>}/>
             </Routes>
         </>
     )

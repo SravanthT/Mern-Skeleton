@@ -3,7 +3,7 @@ import extend from 'lodash/extend';
 import errorHandler from './../helpers/dbErrorHandler';
 
 const create = async (req,res,next)=>{
-    const user = new User(req.body)
+    const user = new User(req.body);
     try{
         await user.save();
         console.log(user, " created succesfully")
