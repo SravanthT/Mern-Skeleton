@@ -8,11 +8,11 @@ router.route('/api/users')
     .get(userCtrl.list)
     .post(userCtrl.create);
 
-router.param('userId', userCtrl.userById)
+router.param('/:userId', userCtrl.userById)
 
 router.route('/api/users/:userId')
-    .get(authCtrl.requireSignin, userCtrl.read)
-    .put(authCtrl.requireSignin, authCtrl.hasAuthorization ,userCtrl.update)
+    .get(authCtrl.requireSignin, userCtrl.userById, userCtrl.read)
+    .put(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.userById ,userCtrl.update)
     .delete(authCtrl.requireSignin,authCtrl.hasAuthorization,userCtrl.remove)
 
 

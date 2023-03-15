@@ -29,25 +29,26 @@ const list = async (req,res) =>{
     }
 }
 
-const userById = async (req,res,next,id) =>{
+const userById = async (req,res,next) =>{
     try{
-        let user = await User.findById(id)
-        if(!user)
-            return res.status('400').json({
-                error: "User not found"
-            })
+        
+        let user = await User.findById(req.params.userId)
+        if(!user){
+            const err = new Error("No User Found with Id"+req.params.userId)
+            throw err;
+        }
         req.profile = user
         next()
         
     }catch(err){
-        return res.status('400').json({
-            error: "Could not retrieve user"
+        return res.status(400).json({
+            error: "Could not retrieve user data"
         })
     }
 }
 
 const read = (req,res) =>{
-    req.profile.hasher_password = undefined;
+    req.profile.hashed_password = undefined;
     req.profile.salt = undefined;
     return res.json(req.profile)
 }

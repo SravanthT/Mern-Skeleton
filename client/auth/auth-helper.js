@@ -4,19 +4,21 @@ const auth = {
     isAuthenticated(){
         if(typeof window == 'undefined') return false
 
-        if(sessionStorage.getItem('jwt'))
-            return JSON.parse(sessionStorage.getItem('jwt'))
+        if(sessionStorage.getItem('jwtToken')){
+            const dataToBeReturned = JSON.parse(sessionStorage.getItem('jwtToken'))
+            // console.log(dataToBeReturned , " This is being returned from is Authenticated Mtn=hod")
+            return dataToBeReturned;}
         else 
             return false;
     },
     authenticate(jwt,cb){
         if(typeof window !== 'undefined')
-            sessionStorage.setItem('jwt', JSON.stringify(jwt))
+            sessionStorage.setItem('jwtToken', JSON.stringify(jwt))
         cb()
     },
     clearJWT(cb){
-        if(typeof window == 'undefined')
-            sessionStorage.removeItem('jwt')
+        if(typeof window !== 'undefined')
+            sessionStorage.removeItem('jwtToken')
         cb()
 
         signout().then((data)=>{

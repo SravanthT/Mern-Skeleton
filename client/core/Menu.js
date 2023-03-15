@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
 import { Home } from '@material-ui/icons';
 import auth from '../auth/auth-helper';
 import { Link , useLocation, useNavigate } from 'react-router-dom';
 
-const isActive = (path)=>{
+const IsActiveLink=({path,children})=>{
     const location = useLocation();
-    return location.pathname === path ? {color: '#ff4081'} : {color: '#ffffff'}
+    const [isActive, setIsActive] = useState(false);
+
+    useEffect(()=>{
+        setIsActive(location.pathname === path);
+    },[location.pathname,path]);
+
+    return(
+        <Button color='inherit' style={{...(isActive ? {color:'#ff4081'} : {color:'#ffffff'})}} >
+            {children}
+        </Button>
+    )
 }
 
 const Menu = () =>{
+
     const navigate = useNavigate();
 
     return(
@@ -19,27 +30,28 @@ const Menu = () =>{
                 MERN Skeleton
             </Typography>
             <Link to='/' >
-                <IconButton aria-label='Home' style={isActive(history,'/')} >
+                <IconButton aria-label='Home' >
                     <Home/>
                 </IconButton>
             </Link>
             <Link to='/users'>
-                <Button style={isActive('/users')} >Users</Button>
+                <IsActiveLink path='/users'>Users</IsActiveLink>
             </Link>
+            <div>
             {
                 !auth.isAuthenticated() && (<span>
                     <Link to='/signup' >
-                        <Button style={isActive("/signup")} >Sign up</Button>
+                        <IsActiveLink path='/signup'>Sign up</IsActiveLink>
                     </Link>
                     <Link to='/signin' >
-                        <Button style={isActive(history,'/signin')} >Sign In</Button>
+                        <IsActiveLink path='/signin'>Sign in</IsActiveLink>
                     </Link>
                 </span>)
             }
             {
                 auth.isAuthenticated() && (<span>
-                    <Link to={"/user/"+ auth.isAuthenticated().user._id} >
-                        <Button style={isActive('/users' + auth.isAuthenticated().user_id)} >My Profile</Button>
+                    <Link to={"/user/"+ auth.isAuthenticated().user.userId} >
+                        <IsActiveLink path={`/user/${auth.isAuthenticated().user.userId}`}>My Profile</IsActiveLink>
                     </Link>
                     <Button 
                         color='inherit' 
@@ -48,6 +60,7 @@ const Menu = () =>{
                     }} >Sign out</Button>
                 </span>)
             }
+            </div>
         </Toolbar>
     </AppBar>
     )

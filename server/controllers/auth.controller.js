@@ -6,7 +6,7 @@ import {expressjwt} from 'express-jwt';
 
 const signin = async (req,res) =>{
     try{
-        console.log(req.body)
+        console.log(Object.keys(req.body), " This is in signin method server")
         let user = await User.findOne({
             'email':req.body.email
         })
@@ -20,17 +20,16 @@ const signin = async (req,res) =>{
             })
         }
         const token = jwt.sign({
-            _id: user._id
-        }, config.jwtSecret)
+            userId: user._id,
+            email : user.email
+        }, config.jwtSecret, {expiresIn: '1h'})
 
-        res.cookie('t',token, { 
-            expire: new Date() + 9999
-        })
+        
 
         return res.json({
             token,
             user:{
-                _id: user._id,
+                userId: user._id,
                 name : user.name,
                 email: user.email
             }
@@ -57,14 +56,24 @@ const requireSignin = expressjwt({
 })
 
 const hasAuthorization = (req,res,next) =>{
-    const authorized = req.profile && req.auth && req.profile._id == req.auth._id
+    const token = req.headers.authorization?.split(" ")[1];
+    
 
-    if(!authorized){
-        return res.status('403').json({
-            error: "User is not authorized"
-        })
+    // if(!authorized){
+    //     return res.status('403').json({
+    //         error: "User is not authorized"
+    //     })
+    // }
+    // next()
+    try{
+        const authorized = jwt.verify(token,config.jwtSecret);
+        console.log(authorized,token, "this is in has Authoriation method in server side")
+        if(res)
+        return res.json(authorized)
+    }catch(err){
+        const error = new Error(err)
+        next (error)
     }
-    next()
 }
 
 export default {signin, signout, requireSignin, hasAuthorization}

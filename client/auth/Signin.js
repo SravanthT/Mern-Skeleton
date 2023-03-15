@@ -1,7 +1,7 @@
 import { Button, CardActions, CardContent, TextField, Typography, Card ,Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {signin} from './api-auth';
 
 const useStyles = makeStyles( theme =>({
@@ -46,12 +46,14 @@ function Signin(props) {
             email : values.email || undefined,
             password : values.password || undefined
         }
+        console.log(user)
         signin(user).then(data=>{
+            console.log(data,user, " This is after Signin method called in signin.js")
             if(data.error) setValues({...values,error:data.error});
             else {
                 setValues({...values,error:'',redirectToReferrer:true})
                 console.log('Signin successful!');
-                navigate('/');
+                navigate('/users');
 
             }
         })

@@ -1,5 +1,5 @@
 import { createTheme } from "@material-ui/core";
-import { pink } from "@material-ui/core/colors";;
+import { pink, green } from "@material-ui/core/colors";;
 
 const theme = createTheme({
     typography:{

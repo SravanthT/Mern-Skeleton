@@ -1,10 +1,10 @@
-import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import auth from '../auth/auth-helper';
 import {read} from './api-user';
-
+import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Typography, Paper } from '@material-ui/core';
+import { Person } from '@material-ui/icons';
 const useStyles = makeStyles(theme=>({
     root: theme.mixins.gutters({
         padding:theme.spacing(1),
@@ -17,17 +17,25 @@ const useStyles = makeStyles(theme=>({
 }))
 
 function Profile() {
+    const params = useParams();
+    const navigate = useNavigate();
     const classes = useStyles();
     const [user,setUser] = useState({});
     const [redirectToSignin, setRedirectToSignin] = useState(false);
+
+
 
     useEffect(()=>{
         const abortController = new AbortController();
         const signal = abortController.signal;
         const jwt = auth.isAuthenticated();
-
+        
+        if(!params && jwt.user.userId){
+            params.userId = jwt.user.userId
+        }
+        // console.log(params,jwt.user.userId, " This is in useEffect")
         read({
-            userId: match.params.userId
+            params
         },{t:jwt.token}, signal).then(data=>{
             if(data && data.error){
                 setRedirectToSignin(true)
@@ -38,9 +46,11 @@ function Profile() {
         return function cleanup(){
             abortController.abort()
         }
-    },[match.params.userId])
+    },[params.userId])
 
-
+    if(redirectToSignin) {
+        navigate('/signin')
+    }
 
     return ( 
         <>

@@ -21,7 +21,7 @@ const list = async (signal) =>{
             method: 'GET',
             signal: signal,
         })
-        return response.json();
+        return await response.json();
     }catch(err){
         console.log(err);
     }
@@ -29,18 +29,26 @@ const list = async (signal) =>{
 
 const read = async (params,credentials,signal) =>{
     try{
-        let response = await fetch('/api/users'+params.userId,{
+        //console.log(Object.values(params), credentials, signal, "THis is in read api-user method")
+        const getUserId = params.params.userId;
+       // console.log(getUserId, " This is getUserId variable")
+        const READ_URL = `/api/users/${getUserId}`;
+        const AUTHORI_TCODE = 'Bearer ' + credentials.t
+        //console.log(params, " this is the auth code stored in session storage")
+        let response = await fetch(READ_URL,{
             method:'GET',
             signal: signal,
+            credentials:'include',
             headers:{
-                'Accept' : 'application/json',
                 'Content-Type' : 'application/json',
-                'Autnorization' : 'Bearer ' + credentials.t
+                'Authorization' : AUTHORI_TCODE
             }
         })
-        return response;
+        //console.log(Object.keys(response))
+        return response.json();
     }catch(err){
         console.log(err)
+        throw err
     }
 }
 
