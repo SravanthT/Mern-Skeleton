@@ -9,6 +9,9 @@ import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes'
 import devBundle from './devBundle'; //Only for development coment inn production
 import path from 'path';
+import compression from 'compression';
+import myLogger from './helpers/requestLogger';
+
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
@@ -22,8 +25,9 @@ app.use(cookieParser())
 app.use(compress())
 app.use(helmet())
 app.use(cors())
-
+app.use(compression())
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
+app.use('/',myLogger)
 
 app.use('/', userRoutes);
 app.use('/',authRoutes);

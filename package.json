@@ -2,12 +2,16 @@
   "name": "mern-skeleton",
   "version": "1.0.0",
   "description": "A mern stack skeleton web appliaction",
-  "main": "./dist/server/generated.js",
+  "main": "./dist/main.js",
+  "browser": {
+    "./dist": "./dist/main.js"
+  },
   "scripts": {
     "development": "nodemon",
     "start": "set NODE_ENV=development && node ./dist/server.generated.js",
     "build": "webpack --config webpack.config.client.production.js && webpack --mode=production --config webpack.config.server.js",
     "custom": "webpack serve --mode development",
+    "dev": "webpack-dev-server --open --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -50,11 +54,15 @@
     "@babel/preset-react": "^7.18.6",
     "babel-loader": "^9.1.2",
     "babel-plugin-syntax-jsx": "^6.18.0",
+    "compression-webpack-plugin": "^10.0.0",
     "file-loader": "^6.2.0",
     "fileloader": "^2.0.0",
     "html-webpack-plugin": "^5.5.0",
     "nodemon": "^2.0.20",
     "react-hot-loader": "^4.13.1",
+    "terser-webpack-plugin": "^5.3.7",
+    "url-loader": "^4.1.1",
+    "webp-loader": "^0.6.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-middleware": "^6.0.1",

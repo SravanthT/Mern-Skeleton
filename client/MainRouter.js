@@ -9,6 +9,7 @@ import Profile from "./user/Profile";
 import Menu from './core/Menu';
 import PrivateRoute from "./auth/PrivateRoute";
 import EditProfileComp from "./user/EditProfile";
+import DeleteUser from "./user/DeleteUser";
 
 
 const MainRouter = () =>{
@@ -23,6 +24,7 @@ const MainRouter = () =>{
                 <Route path='/users' element={<User/>}/>
                 <Route element={ <PrivateRoute path="/user/edit/:userId" element={<EditProfileComp/>} />} />
                 <Route path="/user/:userId" element={<Profile />}/>
+                <Route path="/delete" element={<DeleteUser/>}/>
             </Routes>
         </>
     )

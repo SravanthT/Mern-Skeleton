@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // import Card from '@material-ui/core/Card';
 // import CardContent from "@material-ui/core/CardContent";
 import { CardMedia, CardContent, Card, Typography } from "@material-ui/core";
-import unicornBikeImg from './../assets/images/unicornbike.jpg'
+import unicornBikeImg from './../assets/images/unicornbike_11zon.jpg'
 
 const useStyles = makeStyles(theme =>({
     card:{
